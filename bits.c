@@ -1,8 +1,8 @@
 /* 
  * CS:APP Data Lab 
  * 
- * <Please put your name and userid here>
- * 
+ * <Hüseyin Burak Baysal - hbaysal16>
+ *  
  * bits.c - Source file with your solutions to the Lab.
  *          This is the file you will hand in to your instructor.
  *
@@ -174,7 +174,10 @@ NOTES:
  *   Rating: 1
  */
 int bitXor(int x, int y) {
-  return 2;
+	/* bitwise xor operator using only bitwise (and) and bitwise (not) operators.*/
+	int a = x&y;
+	int b = ~x & ~y;
+  	return ~a & ~b;
 }
 /* 
  * byteSwap - swaps the nth byte and the mth byte
