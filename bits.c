@@ -174,7 +174,7 @@ NOTES:
  *   Rating: 1
  */
 int bitXor(int x, int y) {
-	/* bitwise xor operator using only bitwise (and) and bitwise (not) operators.*/
+	/* performs bitwise ^(xor) operator using only bitwise &(and) and bitwise ~(not) operators.*/
 	int a = x&y;
 	int b = ~x & ~y;
   	return ~a & ~b;
@@ -189,7 +189,12 @@ int bitXor(int x, int y) {
  *  Rating: 2
  */
 int byteSwap(int x, int n, int m) {
-    return 2;
+	/* swaps the specified bytes of given integer.*/
+	n = n<<3;
+	m = m<<3;
+	int f = ((x>>n&0xff) ^ (x>>m&0xff));
+	x = ((f<<n) | (f<<m)) ^ x;
+	return x;
 }
 /* 
  * isLowerCaseLetter - return 1 if 0x61 <= x <= 0x7A (ASCII codes for characters 'a' to 'z')
