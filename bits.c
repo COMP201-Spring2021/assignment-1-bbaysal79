@@ -189,7 +189,7 @@ int bitXor(int x, int y) {
  *  Rating: 2
  */
 int byteSwap(int x, int n, int m) {
-	/* swaps the specified bytes of given integer.*/
+	/* swaps the specified 2 bytes of given integer.*/
 	n = n<<3;
 	m = m<<3;
 	int f = ((x>>n&0xff) ^ (x>>m&0xff));
@@ -206,7 +206,11 @@ int byteSwap(int x, int n, int m) {
  *   Rating: 3
  */
 int isLowerCaseLetter(int x) {
-  return 2;
+	/* Checks whether given char in ASCII code is lowercase or not.*/
+	int a = (x >> 5) ^ 0x3; 		/* checks if given number greater than or equal to 0x60, if so return 0*/
+	int b = ((0x0f & x) + 0x5) & 0xf0; 	/* checks whether given number less than or equal to 0x7a, if so return 0*/
+	int c = !(x ^ 0x60); 			/* checks whether given number is 0x60, if not return 0*/
+	return !(a|b|c); 			/* if all conditions above are satisfied, return 1*/
 }
 /*
  * bitCount - returns count of number of 1's in word
@@ -216,6 +220,7 @@ int isLowerCaseLetter(int x) {
  *   Rating: 4
  */
 int bitCount(int x) {
+
   return 2;
 }
 /* 
