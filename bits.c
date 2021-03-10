@@ -220,8 +220,12 @@ int isLowerCaseLetter(int x) {
  *   Rating: 4
  */
 int bitCount(int x) {
-
-  return 2;
+	/* Counts the number of 1's in binary representation of an integer.*/
+	int a = 1 | (1<<8) | (1<<16) | (1<<24); //00000001000000010000000100000001
+	int b = 0x0F; //000000000000000000000000000001111
+	int c = (x&a) + ((x>>1)&a) + ((x>>2)&a) + ((x>>3)&a) + ((x>>4)&a) + ((x>>5)&a) + ((x>>6)&a) + ((x>>7)&a); // checks every byte of given number
+	int d = (c&b) + ((c>>8)&b) + ((c>>16)&b) + ((c>>24)&b); // check 4-bit by 4-bit and summation is the result.
+	return d;
 }
 /* 
  * divpwr4 - Compute x/(4^n), for 0 <= n <= 15
