@@ -236,7 +236,14 @@ int bitCount(int x) {
  *   Rating: 2
  */
 int divpwr4(int x, int n) {
-    return 2;
+	/* Computes the x/(4^n) equation using bit shifting. Results rounded towards 0.*/
+	int c = 1;
+	c = c<<31;
+	c = !!(x&c); // Check whether x is negative or positive. If negative, c returns 1.
+	x = x>>n;
+	x = x>>n;
+	return x+c; /* For rounding negative numbers toward zero,
+		       we need to increment the result. (2.9 ~ 2, -2.9 ~ -2)*/
 }
 /*
  * ezThreeFourths - multiplies by 3/4 rounding toward 0,
