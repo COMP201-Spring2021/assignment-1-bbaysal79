@@ -190,9 +190,10 @@ int bitXor(int x, int y) {
  */
 int byteSwap(int x, int n, int m) {
 	/* swaps the specified 2 bytes of given integer.*/
+	int f;
 	n = n<<3;
 	m = m<<3;
-	int f = ((x>>n&0xff) ^ (x>>m&0xff));
+	f = (x>>n&0xff) ^ (x>>m&0xff);
 	x = ((f<<n) | (f<<m)) ^ x;
 	return x;
 }
@@ -256,8 +257,9 @@ int divpwr4(int x, int n) {
  */
 int ezThreeFourths(int x) {
 	/* Takes an input x and multiplies it by 3/4 using binary operators.*/
+	int c;
 	x += (x<<1); // Multiplication by 3.
-	int c = (x>>31)&3; // Check whether x is negative or positive.
+	c = (x>>31)&3; // Check whether x is negative or positive.
 	x = (x+c)>>2; // Division by 4.
 	return x;
 }
@@ -275,20 +277,21 @@ int ezThreeFourths(int x) {
  */
 int howManyBits(int x) {
 	/* Calculates the minimum required number of bits to represent x in 2's complement.*/
+	int s16, s8, s4, s2, s1, s0;
 	int i = x>>31;
 	x = (i&~x) | (~i&x); // There is no difference between negative or positive number thus avoid negativity in x.
 	/* Search and find bit by bit the most significant bit. */
-	int s16 = !!(x>>16)<<4;
+	s16 = !!(x>>16)<<4;
 	x = x>>s16;
-	int s8 = !!(x>>8)<<3;
+	s8 = !!(x>>8)<<3;
 	x = x>>s8;
-	int s4 = !!(x>>4)<<2;
+	s4 = !!(x>>4)<<2;
 	x = x>>s4;
-	int s2 = !!(x>>2)<<1;
+	s2 = !!(x>>2)<<1;
 	x = x>>s2;
-	int s1 = !!(x>>1);
+	s1 = !!(x>>1);
 	x = x>>s1;
-	int s0 = x;
+	s0 = x;
 	return s16+s8+s4+s2+s1+s0+1;
 }
 /* 
