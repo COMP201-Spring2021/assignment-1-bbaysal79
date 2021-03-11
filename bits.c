@@ -257,7 +257,13 @@ int divpwr4(int x, int n) {
  *   Rating: 3
  */
 int ezThreeFourths(int x) {
-  return 2;
+	/* Takes an input x and multiplies it by 3/4 using only bitwise operators.*/
+	int c = 1;
+	c = c<<31;
+	c = !!(x&c); // Check whether x is negative or positive. If negative, c returns 1.
+	x += (x<<1); // Multiplication by 3.
+	x = x>>2; // Division by 4.
+	return x+c; // If x negative rounding toward zero done by incrementing the result by 1.
 }
 /* howManyBits - return the minimum number of bits required to represent x in
  *             two's complement
