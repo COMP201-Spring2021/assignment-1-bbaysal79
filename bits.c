@@ -237,9 +237,7 @@ int bitCount(int x) {
  */
 int divpwr4(int x, int n) {
 	/* Computes the x/(4^n) equation using bit shifting. Results rounded towards 0.*/
-	int c = 1;
-	c = c<<31;
-	c = !!(x&c); // Check whether x is negative or positive. If negative, c returns 1.
+	int c = !!(x>>31); // Check whether x is negative or positive. If negative, c returns 1.
 	x = x>>n;
 	x = x>>n;
 	return x+c; /* For rounding negative numbers toward zero,
@@ -257,10 +255,8 @@ int divpwr4(int x, int n) {
  *   Rating: 3
  */
 int ezThreeFourths(int x) {
-	/* Takes an input x and multiplies it by 3/4 using only bitwise operators.*/
-	int c = 1;
-	c = c<<31;
-	c = !!(x&c); // Check whether x is negative or positive. If negative, c returns 1.
+	/* Takes an input x and multiplies it by 3/4 using binary operators.*/
+	int c = !!(x>>31); // Check whether x is negative or positive. If negative, c returns 1.
 	x += (x<<1); // Multiplication by 3.
 	x = x>>2; // Division by 4.
 	return x+c; // If x negative rounding toward zero done by incrementing the result by 1.
@@ -278,7 +274,22 @@ int ezThreeFourths(int x) {
  *  Rating: 4
  */
 int howManyBits(int x) {
-  return 0;
+	/* Calculates the minimum required number of bits to represent x in 2's complement.*/
+	int i = x>>31;
+	x = (i&~x) | (~i&x); // There is no difference between negative or positive number thus avoid negativity in x.
+	/* Search and find bit by bit the most significant bit. */
+	int s16 = !!(x>>16)<<4;
+	x = x>>s16;
+	int s8 = !!(x>>8)<<3;
+	x = x>>s8;
+	int s4 = !!(x>>4)<<2;
+	x = x>>s4;
+	int s2 = !!(x>>2)<<1;
+	x = x>>s2;
+	int s1 = !!(x>>1);
+	x = x>>s1;
+	int s0 = x;
+	return s16+s8+s4+s2+s1+s0+1;
 }
 /* 
  * float_neg - Return bit-level equivalent of expression -f for
