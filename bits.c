@@ -303,8 +303,18 @@ int howManyBits(int x) {
  *   Rating: 2
  */
 unsigned float_neg(unsigned uf) {
- return 2;
+	/* Return the negative equilavent bit-level representation of given float.*/
+	/* If (uf=NaN) return uf.*/
+	if(uf != uf){
+		return uf;
+	}
+	else{
+		unsigned c = 1<<31;
+		return uf ^ c; /* Change the first bit of the number. */
+	}
 }
+
+
 /* 
  * float_half - Return bit-level equivalent of expression 0.5*f for
  *   floating point argument f.
@@ -317,5 +327,14 @@ unsigned float_neg(unsigned uf) {
  *   Rating: 4
  */
 unsigned float_half(unsigned uf) {
-  return 2;
+	if(uf != uf){
+		return uf;
+	}
+	else {
+		unsigned e = uf & 0x7F800000;
+		if(e >= 1 && e <=254){
+			return 0;
+		}
+	}
+	return 2;
 }
