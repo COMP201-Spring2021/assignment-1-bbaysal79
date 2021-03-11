@@ -256,10 +256,10 @@ int divpwr4(int x, int n) {
  */
 int ezThreeFourths(int x) {
 	/* Takes an input x and multiplies it by 3/4 using binary operators.*/
-	int c = !!(x>>31); // Check whether x is negative or positive. If negative, c returns 1.
 	x += (x<<1); // Multiplication by 3.
-	x = x>>2; // Division by 4.
-	return x+c; // If x negative rounding toward zero done by incrementing the result by 1.
+	int c = (x>>31)&3; // Check whether x is negative or positive.
+	x = (x+c)>>2; // Division by 4.
+	return x;
 }
 /* howManyBits - return the minimum number of bits required to represent x in
  *             two's complement
