@@ -208,7 +208,7 @@ int byteSwap(int x, int n, int m) {
 int isLowerCaseLetter(int x) {
 	/* Checks whether given char in ASCII code is lowercase or not.*/
 	int a = (x >> 5) ^ 0x3; 		/* checks if given number greater than or equal to 0x60, if so return 0*/
-	int b = ((0x0f & x) + 0x5) & 0xf0; 	/* checks whether given number less than or equal to 0x7a, if so return 0*/
+	int b = ((0x1f & x) + 0x5) & 0xe0; 	/* checks whether given number less than or equal to 0x7a, if so return 0*/
 	int c = !(x ^ 0x60); 			/* checks whether given number is 0x60, if not return 0*/
 	return !(a|b|c); 			/* if all conditions above are satisfied, return 1*/
 }
@@ -236,12 +236,12 @@ int bitCount(int x) {
  *   Rating: 2
  */
 int divpwr4(int x, int n) {
-	/* Computes the x/(4^n) equation using bit shifting. Results rounded towards 0.*/
-	int c = !!(x>>31); // Check whether x is negative or positive. If negative, c returns 1.
-	x = x>>n;
-	x = x>>n;
-	return x+c; /* For rounding negative numbers toward zero,
-		       we need to increment the result. (2.9 ~ 2, -2.9 ~ -2)*/
+	/* Computes the x/(4^n) equation using bit shifting. Results rounded towards 0 */
+	int s = x>>31; // Check whether x is negative or positive
+	int c = (((s&1)<<n)<<n)+s; // If negative c returns 
+	x += c;
+	x = (x>>n)>>n; // Divide by 4^n
+	return x;
 }
 /*
  * ezThreeFourths - multiplies by 3/4 rounding toward 0,
@@ -305,13 +305,13 @@ int howManyBits(int x) {
 unsigned float_neg(unsigned uf) {
 	/* Return the negative equilavent bit-level representation of given float.*/
 	/* If (uf=NaN) return uf.*/
-	if(uf != uf){
+	unsigned e = uf & 0x7fffffff;
+	if(e >= 0x7f800001){
 		return uf;
 	}
-	else{
-		unsigned c = 1<<31;
-		return uf ^ c; /* Change the first bit of the number. */
-	}
+	else
+		return uf ^ (1<<31); /* Change the first bit of the number. */
+
 }
 
 
@@ -327,14 +327,16 @@ unsigned float_neg(unsigned uf) {
  *   Rating: 4
  */
 unsigned float_half(unsigned uf) {
-	if(uf != uf){
+	unsigned s = uf & 0x80000000;
+	unsigned e = uf & 0x7F800000;
+	unsigned l = (uf&3) == 3;
+	if(e == 0x7F800000){
 		return uf;
 	}
-	else {
-		unsigned e = uf & 0x7F800000;
-		if(e >= 1 && e <=254){
-			return 0;
-		}
+	else if(e<=0x00800000) {
+		return s|(((uf^s)+l)>>1); 
 	}
-	return 2;
+	else{
+		return uf-0x00800000;
+	}
 }
